@@ -6,6 +6,9 @@ import classNamesBind from 'classnames/bind';
 //import { Input } from './input/input';
 import { Todo } from './todo';
 
+
+
+
 function App() {
 
   // Declara una nueva variable de estado, la cual llamaremos “count”
@@ -21,6 +24,22 @@ function App() {
     setValues('');
   }
 
+  function completeTodo(id: number) {
+    setTodos(
+      todos.map(todo => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed
+          }
+        }
+        return todo
+      })
+    )
+  }
+
+
+
   return (
     <div className="App">
 
@@ -30,7 +49,11 @@ function App() {
 
        {todos.map( todo =>
 
-          <li key={todo.id}>
+          <li
+              key={todo.id}
+              onClick={() => completeTodo(todo.id)}
+
+          >
             {todo.text}
           </li>
         )}
