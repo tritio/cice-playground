@@ -1,11 +1,9 @@
-import React, {useState } from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
-import { Button } from './button/button';
-import classNamesBind from 'classnames/bind';
-//import { Input } from './input/input';
-import { Todo } from './todo';
-
+import { TodoList } from './features/todo/ui/todo-list/todo-list'
+import { Todo } from './features/todo/domain/todo'
+import { TodoCreate } from './features/todo/ui/todo-create/todo-create'
+import { Page } from './core/components/page/page';
 
 
 
@@ -14,14 +12,13 @@ function App() {
   // Declara una nueva variable de estado, la cual llamaremos “count”
   // HOOKS: https://es.reactjs.org/docs/hooks-intro.html
 
-  const [todos, setTodos] = useState<Todo[]>([{completed: false, id: 1, text: 'Hacer la compra'}, {completed: false, id: 2, text: 'Ir a la piscina'}])
+  const [todos, setTodos] = useState<Todo[]>([])
 
-  const [value, setValues] = useState('')
 
-  function addTodo() {
-    const newTodo = {id: Math.random() * 1000, completed: true, text: value}
+  function addTodo(todoText: string) {
+    const newTodo = {id: Math.random() * 1000, completed: true, text: todoText}
     setTodos([...todos, newTodo]);
-    setValues('');
+
   }
 
   function completeTodo(id: number) {
@@ -39,31 +36,13 @@ function App() {
   }
 
 
-
   return (
-    <div className="App">
-
-
-
-      <input value={value} onChange = {event => setValues(event.target.value)} />
-
-       {todos.map( todo =>
-
-          <li
-              key={todo.id}
-              onClick={() => completeTodo(todo.id)}
-
-          >
-            {todo.text}
-          </li>
-        )}
-
-      <form onSubmit = {event => event.preventDefault()}>
-        <button onClick={addTodo} >Create todo</button>
-        { /*   <button onClick={() => addTodo({id: Math.random() * 1000, completed: true, text: value})} > Create todo  </button>*/}
-
-      </form>
-    </div>
+    <>
+    <Page>
+      <TodoList todos={todos} onCompleteTodo={completeTodo}></TodoList>
+      <TodoCreate onCreate={addTodo} />
+      </Page>
+    </>
   );
 }
 
