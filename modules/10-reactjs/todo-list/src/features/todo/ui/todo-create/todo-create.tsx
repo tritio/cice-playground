@@ -1,21 +1,27 @@
 import React, { useState } from 'react'
 
-export function CreateTodo({ onCreate }: { onCreate: (todoText: string) => void }) {
+interface Props {
+  onCreate(todoText: string): void
+}
+
+export const TodoCreate: React.FunctionComponent<Props> = ({ onCreate }) => {
   const [todoText, setTodoText] = useState('')
+
+  const clearTodo = () => setTodoText('')
 
   return (
     <form
       onSubmit={event => {
         event.preventDefault()
         onCreate(todoText)
-        setTodoText('')
+        clearTodo()
       }}
     >
       <label>
         Todo
         <input value={todoText} onChange={event => setTodoText(event.target.value)} />
       </label>
-      <button onClick={() => setTodoText('')}>Clear todo</button>
+      <button onClick={clearTodo}>Clear todo</button>
       <button type="submit">Create todo</button>
     </form>
   )
