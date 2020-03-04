@@ -1,5 +1,13 @@
 
 
 .input {
-  border: 1px solid var(--gray-color);
+  border-bottom: 4px solid var(--gray-color);
+}
+
+.input:focus {
+  border-bottom-color: blue;
+}
+
+.required {
+  border-bottom-color: red;
 }
