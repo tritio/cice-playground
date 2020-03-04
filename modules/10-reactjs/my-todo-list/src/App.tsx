@@ -9,7 +9,7 @@ import { Page } from './core/components/page/page';
 
 function App() {
 
-  // Declara una nueva variable de estado, la cual llamaremos “count”
+  // Declara una nueva variable de estado, la cual llamaremos todos
   // HOOKS: https://es.reactjs.org/docs/hooks-intro.html
 
   const [todos, setTodos] = useState<Todo[]>([])
@@ -41,7 +41,7 @@ function App() {
     <Page>
       <TodoList todos={todos} onCompleteTodo={completeTodo}></TodoList>
       <TodoCreate onCreate={addTodo} />
-      </Page>
+    </Page>
     </>
   );
 }
