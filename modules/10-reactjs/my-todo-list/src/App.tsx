@@ -40,7 +40,7 @@ function App() {
     <>
     <Page>
       <TodoList todos={todos} onCompleteTodo={completeTodo}></TodoList>
-      <TodoCreate onCreate={addTodo} />
+      <TodoCreate onCreate={addTodo} todos={todos} />
     </Page>
     </>
   );
