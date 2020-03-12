@@ -14,7 +14,7 @@ interface Props {
 export const Todo: React.FunctionComponent<Props> = ({ onClick, todo }) => (
   <Card>
     <div onClick={onClick}>
-      <li className={cx({ completed: todo.completed })}>{todo.text}</li>
+      <li className={cx({ completed: todo.completed })}>{todo.title}</li>
     </div>
   </Card>
 )

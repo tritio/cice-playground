@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '../../../../core/components/button/button';
 import { Todo } from '../../domain/todo'
 
@@ -12,8 +12,7 @@ export const TodoCreate: React.FunctionComponent<Props> = ({ onCreate, todos }) 
 
   const clearTodo = () => setTodoText('')
 
-  const isRepeated = todos.map( todo => todo.text ).includes(todoText);
-
+  const isRepeated = todos.map( todo => todo.title ).includes(todoText);
 
   return (
 <>

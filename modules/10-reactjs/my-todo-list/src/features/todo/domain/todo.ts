@@ -2,6 +2,6 @@ import { Id } from './id'
 
 export interface Todo {
   id: Id
-  text: string
+  title: string
   completed: boolean
 }

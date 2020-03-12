@@ -4,10 +4,15 @@ import { Id } from '../../domain/id'
 import { Todo } from '../todo/todo'
 
 
+
 export const TodoList: React.FunctionComponent<{
   todos: TodoModel[]
   onCompleteTodo(id: Id): void
 }> = ({ todos, onCompleteTodo }) => {
+
+
+
+
   return (
       <ul>
       {todos.map(todo => (

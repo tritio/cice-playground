@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { TodoList } from './features/todo/ui/todo-list/todo-list'
 import { Todo } from './features/todo/domain/todo'
 import { TodoCreate } from './features/todo/ui/todo-create/todo-create'
 import { Page } from './core/components/page/page';
+import axios from 'axios';
+
 
 
 
@@ -16,7 +18,7 @@ function App() {
 
 
   function addTodo(todoText: string) {
-    const newTodo = {id: Math.random() * 1000, completed: true, text: todoText}
+    const newTodo = {id: Math.random() * 1000, completed: true, title: todoText}
     setTodos([...todos, newTodo]);
 
   }
@@ -34,6 +36,18 @@ function App() {
       })
     )
   }
+
+  useEffect( () => {
+
+    const fetchData = async () => {
+      const result = await axios.get('https://jsonplaceholder.typicode.com/todos/');
+      console.log("ejemplo", result.data);
+      setTodos(result.data);
+
+  };
+  fetchData();
+
+}, []);
 
 
   return (
