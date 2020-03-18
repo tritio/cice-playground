@@ -1,41 +1,60 @@
 import React, {useState, useEffect} from 'react'
-// import styles from './app.module.css'
-// import { bind } from './bind'
+import styles from './app.module.css'
+import { bind } from './bind'
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
-//const cx = bind(styles)
+const cx = bind(styles);
 
-export function App() {
+type Status = 'error' | 'loading' | 'success';
 
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
-
+function useGeoposition() {
+  const [coordinates, setCoordinates] = useState({longitude: 0, latitude: 0});
+  const [status, setStatus] = useState<Status>('loading');
 
 
   useEffect( () => {
 
-    function success(position: any) {
-      //const coordenates = position.coords;
-      const { latitude, longitude } = position.coords;
+    const id = navigator.geolocation.watchPosition(({coords}) => {
+      const { latitude, longitude } = coords;
+      setCoordinates({latitude, longitude});
+      setStatus('success')
+    },
+      error => {
+        setStatus('error')
+      }
+    );
 
-      setLatitude(latitude);
-      setLongitude(longitude);
+    //función que se ejecuta cuando se destruye el componente:
 
-    }
-
-    function error(err: any) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
-
-    navigator.geolocation.getCurrentPosition(success, error);
+    return () => navigator.geolocation.clearWatch(id);
 
 }, []);
 
+   return {coordinates, status}
+
+}
+
+export function App() {
+
+  const { coordinates, status } = useGeoposition();
+
+  if (status ==='loading') {
+    return <span>cargando...</span>
+  }
+
+  if (status === 'error') {
+    return <span>Error al obtener la localización</span>
+  }
+
   return (
-    <>
-    <span>Longitud: {longitude}</span>
-    <br/>
-    <span>Latitud: {latitude}</span>
-     </>
+    // para que se vea bien, importamos en index.tsx los estilos de Leaftlet
+   <Map className={cx('map')} center={[coordinates.latitude, coordinates.longitude]} zoom={13}>
+     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"></TileLayer>
+       Longitud: {coordinates.longitude} ----- Latitud: {coordinates.latitude}
+
+    </Map>
+
+
   )
 }
 
